@@ -1,9 +1,13 @@
-import Image from "next/image";
+// import Image from "next/image";
+import Link from "next/link";
+import prisma from '@/lib/prisma'
 
-export default function Home() {
+export default async function Home() {
+  const users = await prisma.user.findMany();
+  console.log('Users:', users)
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+      {/* <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -59,7 +63,36 @@ export default function Home() {
             Documentation
           </a>
         </div>
-      </main>
+      </main> */}
+      <main style={{ padding: '20px' }}>
+      <h1>项目首页</h1>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <Link href="/about" style={{ color: 'blue' }}>
+          前往“关于我们” (一级页面)
+        </Link>
+
+        <Link href="/services/design" style={{ color: 'blue' }}>
+          前往“设计服务” (二级页面)
+        </Link>
+
+        <Link href="/blog/2" style={{ color: 'blue' }}>
+          查看文章 ID: 2 (动态二级页面)
+        </Link>
+         <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
+      <h1 className="text-4xl font-bold mb-8 font-[family-name:var(--font-geist-sans)] text-[#333333]">
+        Superblog
+      </h1>
+      <ol className="list-decimal list-inside font-[family-name:var(--font-geist-sans)]">
+        {users.map((user) => (
+          <li key={user.id} className="mb-2">
+            {user.name}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+      </nav>
+    </main>
     </div>
   );
 }
