@@ -1,8 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export const runtime = 'experimental-edge'
-
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -40,6 +38,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // 在 Next.js 16 中，将 runtime 放入 config 对象通常更稳健
+  runtime: 'experimental-edge',
   matcher: [
     /*
      * 匹配所有请求路径，除了：
